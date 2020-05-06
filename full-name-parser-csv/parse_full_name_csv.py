@@ -8,7 +8,7 @@ log = logging.getLogger('parse_full_name_csv')
 class ParseFullNameCSV(object):
     output_file_format = '{input_file_base}{output_postfix}.csv'
     output_postfix_constant = '_parsedName'
-    output_headers_to_add = ['parsed_'.format(h) for h in HumanName._members]
+    output_headers_to_add = ['parsed_{}'.format(h) for h in HumanName._members]
     default_input_field_to_parse = 'name'
 
     def __init__(self, input_file, output_file=None, field_name=None):
@@ -38,7 +38,7 @@ class ParseFullNameCSV(object):
         new_rows = self.process_rows(rows)
         new_headers = self.output_headers_to_add + headers
         log.debug('preparing to write output file: rows={} headers={}'.format(len(new_rows), len(new_headers)))
-        write_path = utils.write_csv(self.output_file, new_rows, new_headers)
+        write_path = utils.write_csv(self.output_file, new_rows, new_headers, lineterminator="\n")
         log.info('finished processing file: output={}'.format(write_path))
         return 0
 
